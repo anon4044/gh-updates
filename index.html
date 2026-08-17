@@ -1265,16 +1265,16 @@
     display: inline-flex;
     width: 16px;
     height: 16px;
-    border-radius: 50%;
-    background: #ff6fa5;
-    color: #fff;
+    color: #ff6fa5;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
     vertical-align: middle;
-    margin-left: 3px;
-    position: relative;
-    top: -1px;
+    align-self: center;
+  }
+  .lena-verified-badge svg {
+    width: 100%;
+    height: 100%;
   }
   .comment-header .lena-verified-badge {
     width: 13px;
@@ -1752,7 +1752,7 @@
   }
   .comment-card {
     position: relative;
-    margin-top: 12px;
+    margin-top: 0;
     border: 0;
     border-radius: 0;
     overflow: hidden;
@@ -1771,7 +1771,7 @@
     position: relative;
     display: flex;
     gap: 10px;
-    padding: 14px;
+    padding: 12px;
   }
   .comment-row.is-creator-reply {
     border-bottom: 0.5px solid rgba(60,60,67,0.25);
@@ -1842,8 +1842,14 @@
   .comment-action-btn {
     display: inline-flex;
     align-items: center;
+    gap: 4px;
     color: var(--dm-text-secondary);
     cursor: pointer;
+  }
+  .comment-action-count {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--dm-text-secondary);
   }
   .lena-bio-row {
     display: flex;
@@ -2887,6 +2893,14 @@
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
   }
+  /* Dark mode only: same 0%/55%/transparent mask as above, just a darker
+     translucent tint + heavier blur so the fade reads soft/smoky like the
+     video overlay's topbar, instead of the flat opaque bg-primary fill. */
+  .screen.app-dark .banner-detail-topbar.is-scrolled::before {
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
   .banner-detail-navrow .round-btn,
   .banner-detail-date-pill,
   .banner-detail-navrow .sheet-globe-btn {
@@ -3192,6 +3206,10 @@
     touch-action: pan-y;
   }
   .banner-detail-hero-fade {
+    display: none;
+  }
+  .screen.app-dark .banner-detail-hero-fade {
+    display: block;
     position: absolute;
     left: 0;
     right: 0;
@@ -3199,9 +3217,9 @@
     height: 25%;
     pointer-events: none;
     background: linear-gradient(to bottom,
-      rgba(var(--dm-bg-primary-rgb),0) 0%,
-      rgba(var(--dm-bg-primary-rgb),0.5) 60%,
-      rgba(var(--dm-bg-primary-rgb),1) 100%);
+      rgba(20,20,20,0) 0%,
+      rgba(20,20,20,0.5) 60%,
+      rgba(20,20,20,1) 100%);
   }
   .banner-detail-hero-block {
     background: var(--dm-bg-primary);
@@ -3246,6 +3264,7 @@
     background: #f5f5f7 center / cover no-repeat;
   }
   .banner-detail-thumb-grid {
+    position: relative;
     display: flex;
     gap: 8px;
     overflow-x: auto;
@@ -3255,10 +3274,24 @@
     margin: 12px auto 0;
     padding-bottom: 2px;
   }
+  .screen.app-dark .banner-detail-thumb-item::after {
+    content: '';
+    position: absolute;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    height: 40%;
+    pointer-events: none;
+    background: linear-gradient(to bottom,
+      rgba(20,20,20,0) 0%,
+      rgba(20,20,20,0.6) 60%,
+      rgba(20,20,20,1) 100%);
+  }
   .banner-detail-thumb-grid::-webkit-scrollbar {
     display: none;
   }
   .banner-detail-thumb-item {
+    position: relative;
     width: 120px;
     aspect-ratio: 16 / 9;
     flex: 0 0 auto;
@@ -3329,6 +3362,33 @@
     font-weight: 600;
     color: var(--dm-text-primary);
   }
+  .banner-detail-info-label--regular {
+    font-weight: 400;
+  }
+  .banner-detail-meta-scroll {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    overflow-x: auto;
+    white-space: nowrap;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    font-size: 14px;
+    color: var(--dm-text-primary);
+  }
+  .banner-detail-meta-scroll::-webkit-scrollbar {
+    display: none;
+  }
+  .banner-detail-meta-item {
+    flex: 0 0 auto;
+  }
+  .banner-detail-meta-dot {
+    flex: 0 0 auto;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--dm-text-secondary);
+    opacity: 0.5;
+  }
   .banner-detail-genre-row {
     display: grid;
     grid-template-columns: 108px 1fr;
@@ -3365,6 +3425,7 @@
   }
   .banner-detail-tab-panel > .banner-detail-divider:first-child {
     margin-top: 6px;
+    margin-bottom: 0;
   }
   .banner-detail-section-label {
     font-size: 16px;
@@ -3377,6 +3438,7 @@
     font-size: 14px;
     line-height: 1.6;
     color: #3c3c43;
+    margin-top: 14px;
     margin-bottom: 20px;
     white-space: pre-line;
   }
@@ -4095,7 +4157,7 @@
                   <span class="comment-handle">@pam09</span>
                 </div>
                 <div class="comment-text-wrap" data-comment-wrap>
-                  <span class="comment-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span>
+                  <span class="comment-text">i've been following you since your debut and honestly every year you just keep getting more inspiring. thank you for always taking the time to reply to us even when you're this busy, it genuinely makes my whole week 🩷 stay healthy lena, we're always cheering for you no matter what</span>
                   <span class="comment-more-btn" data-comment-toggle></span>
                 </div>
               </div>
@@ -4106,10 +4168,10 @@
                 <div class="comment-header">
                   <span class="comment-name">Lena</span>
                   <span class="comment-handle">@lalinalena</span>
-                  <span class="lena-verified-badge" aria-label="Verified"><svg width="8" height="8" viewBox="0 0 20 20" fill="none"><path d="M4 10.5L8 14.5L16 6" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                  <span class="lena-verified-badge" aria-label="Verified"><svg width="9" height="9" viewBox="0 0 24 24" fill="none"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M9.5924 3.20027C9.34888 3.4078 9.22711 3.51158 9.09706 3.59874C8.79896 3.79854 8.46417 3.93721 8.1121 4.00672C7.95851 4.03705 7.79903 4.04977 7.48008 4.07522C6.6787 4.13918 6.278 4.17115 5.94371 4.28923C5.17051 4.56233 4.56233 5.17051 4.28923 5.94371C4.17115 6.278 4.13918 6.6787 4.07522 7.48008C4.04977 7.79903 4.03705 7.95851 4.00672 8.1121C3.93721 8.46417 3.79854 8.79896 3.59874 9.09706C3.51158 9.22711 3.40781 9.34887 3.20027 9.5924C2.67883 10.2043 2.4181 10.5102 2.26522 10.8301C1.91159 11.57 1.91159 12.43 2.26522 13.1699C2.41811 13.4898 2.67883 13.7957 3.20027 14.4076C3.40778 14.6511 3.51158 14.7729 3.59874 14.9029C3.79854 15.201 3.93721 15.5358 4.00672 15.8879C4.03705 16.0415 4.04977 16.201 4.07522 16.5199C4.13918 17.3213 4.17115 17.722 4.28923 18.0563C4.56233 18.8295 5.17051 19.4377 5.94371 19.7108C6.278 19.8288 6.6787 19.8608 7.48008 19.9248C7.79903 19.9502 7.95851 19.963 8.1121 19.9933C8.46417 20.0628 8.79896 20.2015 9.09706 20.4013C9.22711 20.4884 9.34887 20.5922 9.5924 20.7997C10.2043 21.3212 10.5102 21.5819 10.8301 21.7348C11.57 22.0884 12.43 22.0884 13.1699 21.7348C13.4898 21.5819 13.7957 21.3212 14.4076 20.7997C14.6511 20.5922 14.7729 20.4884 14.9029 20.4013C15.201 20.2015 15.5358 20.0628 15.8879 19.9933C16.0415 19.963 16.201 19.9502 16.5199 19.9248C17.3213 19.8608 17.722 19.8288 18.0563 19.7108C18.8295 19.4377 19.4377 18.8295 19.7108 18.0563C19.8288 17.722 19.8608 17.3213 19.9248 16.5199C19.9502 16.201 19.963 16.0415 19.9933 15.8879C20.0628 15.5358 20.2015 15.201 20.4013 14.9029C20.4884 14.7729 20.5922 14.6511 20.7997 14.4076C21.3212 13.7957 21.5819 13.4898 21.7348 13.1699C22.0884 12.43 22.0884 11.57 21.7348 10.8301C21.5819 10.5102 21.3212 10.2043 20.7997 9.5924C20.5922 9.34887 20.4884 9.22711 20.4013 9.09706C20.2015 8.79896 20.0628 8.46417 19.9933 8.1121C19.963 7.95851 19.9502 7.79903 19.9248 7.48008C19.8608 6.6787 19.8288 6.278 19.7108 5.94371C19.4377 5.17051 18.8295 4.56233 18.0563 4.28923C17.722 4.17115 17.3213 4.13918 16.5199 4.07522C16.201 4.04977 16.0415 4.03705 15.8879 4.00672C15.5358 3.93721 15.201 3.79854 14.9029 3.59874C14.7729 3.51158 14.6511 3.40781 14.4076 3.20027C13.7957 2.67883 13.4898 2.41811 13.1699 2.26522C12.43 1.91159 11.57 1.91159 10.8301 2.26522C10.5102 2.4181 10.2043 2.67883 9.5924 3.20027ZM16.3735 9.86314C16.6913 9.5453 16.6913 9.03 16.3735 8.71216C16.0557 8.39433 15.5403 8.39433 15.2225 8.71216L10.3723 13.5624L8.77746 11.9676C8.45963 11.6498 7.94432 11.6498 7.62649 11.9676C7.30866 12.2854 7.30866 12.8007 7.62649 13.1186L9.79678 15.2889C10.1146 15.6067 10.6299 15.6067 10.9478 15.2889L16.3735 9.86314Z"/></svg></span>
                 </div>
                 <div class="comment-text-wrap is-expanded">
-                  <span class="comment-text">I miss you too!</span>
+                  <span class="comment-text">aww pam thank you for sticking with me since the very beginning, it really means the world to me 🩷 love you so much, let's keep growing together!</span>
                 </div>
                 <div class="comment-action-row">
                   <span class="comment-action-btn" aria-label="Like"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><use href="#icon-smile-circle"/></svg></span>
@@ -4129,7 +4191,7 @@
                   <span class="comment-handle">@joyluna</span>
                 </div>
                 <div class="comment-text-wrap" data-comment-wrap>
-                  <span class="comment-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span>
+                  <span class="comment-text">you looked SO good today omg, that fit was insane 😭 my fav artist forever no cap</span>
                   <span class="comment-more-btn" data-comment-toggle></span>
                 </div>
               </div>
@@ -4140,10 +4202,10 @@
                 <div class="comment-header">
                   <span class="comment-name">Lena</span>
                   <span class="comment-handle">@lalinalena</span>
-                  <span class="lena-verified-badge" aria-label="Verified"><svg width="8" height="8" viewBox="0 0 20 20" fill="none"><path d="M4 10.5L8 14.5L16 6" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                  <span class="lena-verified-badge" aria-label="Verified"><svg width="9" height="9" viewBox="0 0 24 24" fill="none"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M9.5924 3.20027C9.34888 3.4078 9.22711 3.51158 9.09706 3.59874C8.79896 3.79854 8.46417 3.93721 8.1121 4.00672C7.95851 4.03705 7.79903 4.04977 7.48008 4.07522C6.6787 4.13918 6.278 4.17115 5.94371 4.28923C5.17051 4.56233 4.56233 5.17051 4.28923 5.94371C4.17115 6.278 4.13918 6.6787 4.07522 7.48008C4.04977 7.79903 4.03705 7.95851 4.00672 8.1121C3.93721 8.46417 3.79854 8.79896 3.59874 9.09706C3.51158 9.22711 3.40781 9.34887 3.20027 9.5924C2.67883 10.2043 2.4181 10.5102 2.26522 10.8301C1.91159 11.57 1.91159 12.43 2.26522 13.1699C2.41811 13.4898 2.67883 13.7957 3.20027 14.4076C3.40778 14.6511 3.51158 14.7729 3.59874 14.9029C3.79854 15.201 3.93721 15.5358 4.00672 15.8879C4.03705 16.0415 4.04977 16.201 4.07522 16.5199C4.13918 17.3213 4.17115 17.722 4.28923 18.0563C4.56233 18.8295 5.17051 19.4377 5.94371 19.7108C6.278 19.8288 6.6787 19.8608 7.48008 19.9248C7.79903 19.9502 7.95851 19.963 8.1121 19.9933C8.46417 20.0628 8.79896 20.2015 9.09706 20.4013C9.22711 20.4884 9.34887 20.5922 9.5924 20.7997C10.2043 21.3212 10.5102 21.5819 10.8301 21.7348C11.57 22.0884 12.43 22.0884 13.1699 21.7348C13.4898 21.5819 13.7957 21.3212 14.4076 20.7997C14.6511 20.5922 14.7729 20.4884 14.9029 20.4013C15.201 20.2015 15.5358 20.0628 15.8879 19.9933C16.0415 19.963 16.201 19.9502 16.5199 19.9248C17.3213 19.8608 17.722 19.8288 18.0563 19.7108C18.8295 19.4377 19.4377 18.8295 19.7108 18.0563C19.8288 17.722 19.8608 17.3213 19.9248 16.5199C19.9502 16.201 19.963 16.0415 19.9933 15.8879C20.0628 15.5358 20.2015 15.201 20.4013 14.9029C20.4884 14.7729 20.5922 14.6511 20.7997 14.4076C21.3212 13.7957 21.5819 13.4898 21.7348 13.1699C22.0884 12.43 22.0884 11.57 21.7348 10.8301C21.5819 10.5102 21.3212 10.2043 20.7997 9.5924C20.5922 9.34887 20.4884 9.22711 20.4013 9.09706C20.2015 8.79896 20.0628 8.46417 19.9933 8.1121C19.963 7.95851 19.9502 7.79903 19.9248 7.48008C19.8608 6.6787 19.8288 6.278 19.7108 5.94371C19.4377 5.17051 18.8295 4.56233 18.0563 4.28923C17.722 4.17115 17.3213 4.13918 16.5199 4.07522C16.201 4.04977 16.0415 4.03705 15.8879 4.00672C15.5358 3.93721 15.201 3.79854 14.9029 3.59874C14.7729 3.51158 14.6511 3.40781 14.4076 3.20027C13.7957 2.67883 13.4898 2.41811 13.1699 2.26522C12.43 1.91159 11.57 1.91159 10.8301 2.26522C10.5102 2.4181 10.2043 2.67883 9.5924 3.20027ZM16.3735 9.86314C16.6913 9.5453 16.6913 9.03 16.3735 8.71216C16.0557 8.39433 15.5403 8.39433 15.2225 8.71216L10.3723 13.5624L8.77746 11.9676C8.45963 11.6498 7.94432 11.6498 7.62649 11.9676C7.30866 12.2854 7.30866 12.8007 7.62649 13.1186L9.79678 15.2889C10.1146 15.6067 10.6299 15.6067 10.9478 15.2889L16.3735 9.86314Z"/></svg></span>
                 </div>
                 <div class="comment-text-wrap is-expanded">
-                  <span class="comment-text">Thank you so much!</span>
+                  <span class="comment-text">thank you so much joy, that means a lot to me 🩷 you're literally the sweetest</span>
                 </div>
                 <div class="comment-action-row">
                   <span class="comment-action-btn" aria-label="Like"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><use href="#icon-smile-circle"/></svg></span>
@@ -4328,7 +4390,7 @@
                   <span class="comment-handle">@pam09</span>
                 </div>
                 <div class="comment-text-wrap" data-comment-wrap>
-                  <span class="comment-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span>
+                  <span class="comment-text">the way you handled that interview earlier was so graceful, i was smiling the entire time watching. so proud of how far you've come miu, hope you get to rest properly after such a packed week 🤍 we love you so much</span>
                   <span class="comment-more-btn" data-comment-toggle></span>
                 </div>
               </div>
@@ -4339,10 +4401,10 @@
                 <div class="comment-header">
                   <span class="comment-name">Miu</span>
                   <span class="comment-handle">@miunatsha</span>
-                  <span class="lena-verified-badge" aria-label="Verified"><svg width="8" height="8" viewBox="0 0 20 20" fill="none"><path d="M4 10.5L8 14.5L16 6" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                  <span class="lena-verified-badge" aria-label="Verified"><svg width="9" height="9" viewBox="0 0 24 24" fill="none"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M9.5924 3.20027C9.34888 3.4078 9.22711 3.51158 9.09706 3.59874C8.79896 3.79854 8.46417 3.93721 8.1121 4.00672C7.95851 4.03705 7.79903 4.04977 7.48008 4.07522C6.6787 4.13918 6.278 4.17115 5.94371 4.28923C5.17051 4.56233 4.56233 5.17051 4.28923 5.94371C4.17115 6.278 4.13918 6.6787 4.07522 7.48008C4.04977 7.79903 4.03705 7.95851 4.00672 8.1121C3.93721 8.46417 3.79854 8.79896 3.59874 9.09706C3.51158 9.22711 3.40781 9.34887 3.20027 9.5924C2.67883 10.2043 2.4181 10.5102 2.26522 10.8301C1.91159 11.57 1.91159 12.43 2.26522 13.1699C2.41811 13.4898 2.67883 13.7957 3.20027 14.4076C3.40778 14.6511 3.51158 14.7729 3.59874 14.9029C3.79854 15.201 3.93721 15.5358 4.00672 15.8879C4.03705 16.0415 4.04977 16.201 4.07522 16.5199C4.13918 17.3213 4.17115 17.722 4.28923 18.0563C4.56233 18.8295 5.17051 19.4377 5.94371 19.7108C6.278 19.8288 6.6787 19.8608 7.48008 19.9248C7.79903 19.9502 7.95851 19.963 8.1121 19.9933C8.46417 20.0628 8.79896 20.2015 9.09706 20.4013C9.22711 20.4884 9.34887 20.5922 9.5924 20.7997C10.2043 21.3212 10.5102 21.5819 10.8301 21.7348C11.57 22.0884 12.43 22.0884 13.1699 21.7348C13.4898 21.5819 13.7957 21.3212 14.4076 20.7997C14.6511 20.5922 14.7729 20.4884 14.9029 20.4013C15.201 20.2015 15.5358 20.0628 15.8879 19.9933C16.0415 19.963 16.201 19.9502 16.5199 19.9248C17.3213 19.8608 17.722 19.8288 18.0563 19.7108C18.8295 19.4377 19.4377 18.8295 19.7108 18.0563C19.8288 17.722 19.8608 17.3213 19.9248 16.5199C19.9502 16.201 19.963 16.0415 19.9933 15.8879C20.0628 15.5358 20.2015 15.201 20.4013 14.9029C20.4884 14.7729 20.5922 14.6511 20.7997 14.4076C21.3212 13.7957 21.5819 13.4898 21.7348 13.1699C22.0884 12.43 22.0884 11.57 21.7348 10.8301C21.5819 10.5102 21.3212 10.2043 20.7997 9.5924C20.5922 9.34887 20.4884 9.22711 20.4013 9.09706C20.2015 8.79896 20.0628 8.46417 19.9933 8.1121C19.963 7.95851 19.9502 7.79903 19.9248 7.48008C19.8608 6.6787 19.8288 6.278 19.7108 5.94371C19.4377 5.17051 18.8295 4.56233 18.0563 4.28923C17.722 4.17115 17.3213 4.13918 16.5199 4.07522C16.201 4.04977 16.0415 4.03705 15.8879 4.00672C15.5358 3.93721 15.201 3.79854 14.9029 3.59874C14.7729 3.51158 14.6511 3.40781 14.4076 3.20027C13.7957 2.67883 13.4898 2.41811 13.1699 2.26522C12.43 1.91159 11.57 1.91159 10.8301 2.26522C10.5102 2.4181 10.2043 2.67883 9.5924 3.20027ZM16.3735 9.86314C16.6913 9.5453 16.6913 9.03 16.3735 8.71216C16.0557 8.39433 15.5403 8.39433 15.2225 8.71216L10.3723 13.5624L8.77746 11.9676C8.45963 11.6498 7.94432 11.6498 7.62649 11.9676C7.30866 12.2854 7.30866 12.8007 7.62649 13.1186L9.79678 15.2889C10.1146 15.6067 10.6299 15.6067 10.9478 15.2889L16.3735 9.86314Z"/></svg></span>
                 </div>
                 <div class="comment-text-wrap is-expanded">
-                  <span class="comment-text">I miss you too!</span>
+                  <span class="comment-text">thank you so much pam 🤍 that interview was actually pretty nerve wracking so this means a lot, i'll rest properly this weekend i promise!</span>
                 </div>
                 <div class="comment-action-row">
                   <span class="comment-action-btn" aria-label="Like"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><use href="#icon-smile-circle"/></svg></span>
@@ -4529,7 +4591,7 @@
           <div class="content-tab-bar" style="gap:8px;">
             <span class="content-tab-item active" data-sort-toggle="profile">Profile</span>
             <span class="content-tab-item" data-sort-toggle="content">Posts<sup class="content-tab-count" id="pondPostsCount">6</sup></span>
-            <span class="content-tab-item" data-sort-toggle="comments">Replies<sup class="content-tab-count">0</sup></span>
+            <span class="content-tab-item" data-sort-toggle="comments">Replies<sup class="content-tab-count">2</sup></span>
           </div>
 
           <div class="tab-panel-content" data-tab-panel="profile" style="margin-top:4px;">
@@ -4682,6 +4744,73 @@
           </div>
 
           <div class="tab-panel-content" data-tab-panel="comments" style="display:none;">
+          <div class="comment-card">
+            <div class="comment-row">
+              <div class="comment-avatar" style="background:#c9a8e8;"></div>
+              <div class="comment-body">
+                <div class="comment-header">
+                  <span class="comment-name">Fah</span>
+                  <span class="comment-handle">@fahpond</span>
+                </div>
+                <div class="comment-text-wrap" data-comment-wrap>
+                  <span class="comment-text">the way you sang that last chorus live gave me chills, please come back to Manila soon 🥹</span>
+                  <span class="comment-more-btn" data-comment-toggle></span>
+                </div>
+              </div>
+            </div>
+            <div class="comment-row is-creator-reply">
+              <div class="comment-avatar" style="background: linear-gradient(135deg, #a8c8e8, #7ea8c9);"></div>
+              <div class="comment-body">
+                <div class="comment-header">
+                  <span class="comment-name">Pond</span>
+                  <span class="comment-handle">@ppnaravit</span>
+                  <span class="lena-verified-badge" aria-label="Verified"><svg width="9" height="9" viewBox="0 0 24 24" fill="none"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M9.5924 3.20027C9.34888 3.4078 9.22711 3.51158 9.09706 3.59874C8.79896 3.79854 8.46417 3.93721 8.1121 4.00672C7.95851 4.03705 7.79903 4.04977 7.48008 4.07522C6.6787 4.13918 6.278 4.17115 5.94371 4.28923C5.17051 4.56233 4.56233 5.17051 4.28923 5.94371C4.17115 6.278 4.13918 6.6787 4.07522 7.48008C4.04977 7.79903 4.03705 7.95851 4.00672 8.1121C3.93721 8.46417 3.79854 8.79896 3.59874 9.09706C3.51158 9.22711 3.40781 9.34887 3.20027 9.5924C2.67883 10.2043 2.4181 10.5102 2.26522 10.8301C1.91159 11.57 1.91159 12.43 2.26522 13.1699C2.41811 13.4898 2.67883 13.7957 3.20027 14.4076C3.40778 14.6511 3.51158 14.7729 3.59874 14.9029C3.79854 15.201 3.93721 15.5358 4.00672 15.8879C4.03705 16.0415 4.04977 16.201 4.07522 16.5199C4.13918 17.3213 4.17115 17.722 4.28923 18.0563C4.56233 18.8295 5.17051 19.4377 5.94371 19.7108C6.278 19.8288 6.6787 19.8608 7.48008 19.9248C7.79903 19.9502 7.95851 19.963 8.1121 19.9933C8.46417 20.0628 8.79896 20.2015 9.09706 20.4013C9.22711 20.4884 9.34887 20.5922 9.5924 20.7997C10.2043 21.3212 10.5102 21.5819 10.8301 21.7348C11.57 22.0884 12.43 22.0884 13.1699 21.7348C13.4898 21.5819 13.7957 21.3212 14.4076 20.7997C14.6511 20.5922 14.7729 20.4884 14.9029 20.4013C15.201 20.2015 15.5358 20.0628 15.8879 19.9933C16.0415 19.963 16.201 19.9502 16.5199 19.9248C17.3213 19.8608 17.722 19.8288 18.0563 19.7108C18.8295 19.4377 19.4377 18.8295 19.7108 18.0563C19.8288 17.722 19.8608 17.3213 19.9248 16.5199C19.9502 16.201 19.963 16.0415 19.9933 15.8879C20.0628 15.5358 20.2015 15.201 20.4013 14.9029C20.4884 14.7729 20.5922 14.6511 20.7997 14.4076C21.3212 13.7957 21.5819 13.4898 21.7348 13.1699C22.0884 12.43 22.0884 11.57 21.7348 10.8301C21.5819 10.5102 21.3212 10.2043 20.7997 9.5924C20.5922 9.34887 20.4884 9.22711 20.4013 9.09706C20.2015 8.79896 20.0628 8.46417 19.9933 8.1121C19.963 7.95851 19.9502 7.79903 19.9248 7.48008C19.8608 6.6787 19.8288 6.278 19.7108 5.94371C19.4377 5.17051 18.8295 4.56233 18.0563 4.28923C17.722 4.17115 17.3213 4.13918 16.5199 4.07522C16.201 4.04977 16.0415 4.03705 15.8879 4.00672C15.5358 3.93721 15.201 3.79854 14.9029 3.59874C14.7729 3.51158 14.6511 3.40781 14.4076 3.20027C13.7957 2.67883 13.4898 2.41811 13.1699 2.26522C12.43 1.91159 11.57 1.91159 10.8301 2.26522C10.5102 2.4181 10.2043 2.67883 9.5924 3.20027ZM16.3735 9.86314C16.6913 9.5453 16.6913 9.03 16.3735 8.71216C16.0557 8.39433 15.5403 8.39433 15.2225 8.71216L10.3723 13.5624L8.77746 11.9676C8.45963 11.6498 7.94432 11.6498 7.62649 11.9676C7.30866 12.2854 7.30866 12.8007 7.62649 13.1186L9.79678 15.2889C10.1146 15.6067 10.6299 15.6067 10.9478 15.2889L16.3735 9.86314Z"/></svg></span>
+                </div>
+                <div class="comment-text-wrap is-expanded">
+                  <span class="comment-text">I'll try my best, thank you for waiting for me 🤍</span>
+                </div>
+                <div class="comment-action-row">
+                  <span class="comment-action-btn" aria-label="Like"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><use href="#icon-smile-circle"/></svg></span>
+                  <span class="comment-action-btn" aria-label="Comment"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><use href="#icon-chat-dots"/></svg></span>
+                  <span class="comment-action-btn" aria-label="Forward"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><use href="#icon-share"/></svg></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="comment-card">
+            <div class="comment-row">
+              <div class="comment-avatar" style="background:#f0c987;"></div>
+              <div class="comment-body">
+                <div class="comment-header">
+                  <span class="comment-name">Bee</span>
+                  <span class="comment-handle">@beewatches</span>
+                </div>
+                <div class="comment-text-wrap" data-comment-wrap>
+                  <span class="comment-text">bro really said "actor, singer" and meant it. new single when??</span>
+                  <span class="comment-more-btn" data-comment-toggle></span>
+                </div>
+              </div>
+            </div>
+            <div class="comment-row is-creator-reply">
+              <div class="comment-avatar" style="background: linear-gradient(135deg, #a8c8e8, #7ea8c9);"></div>
+              <div class="comment-body">
+                <div class="comment-header">
+                  <span class="comment-name">Pond</span>
+                  <span class="comment-handle">@ppnaravit</span>
+                  <span class="lena-verified-badge" aria-label="Verified"><svg width="9" height="9" viewBox="0 0 24 24" fill="none"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M9.5924 3.20027C9.34888 3.4078 9.22711 3.51158 9.09706 3.59874C8.79896 3.79854 8.46417 3.93721 8.1121 4.00672C7.95851 4.03705 7.79903 4.04977 7.48008 4.07522C6.6787 4.13918 6.278 4.17115 5.94371 4.28923C5.17051 4.56233 4.56233 5.17051 4.28923 5.94371C4.17115 6.278 4.13918 6.6787 4.07522 7.48008C4.04977 7.79903 4.03705 7.95851 4.00672 8.1121C3.93721 8.46417 3.79854 8.79896 3.59874 9.09706C3.51158 9.22711 3.40781 9.34887 3.20027 9.5924C2.67883 10.2043 2.4181 10.5102 2.26522 10.8301C1.91159 11.57 1.91159 12.43 2.26522 13.1699C2.41811 13.4898 2.67883 13.7957 3.20027 14.4076C3.40778 14.6511 3.51158 14.7729 3.59874 14.9029C3.79854 15.201 3.93721 15.5358 4.00672 15.8879C4.03705 16.0415 4.04977 16.201 4.07522 16.5199C4.13918 17.3213 4.17115 17.722 4.28923 18.0563C4.56233 18.8295 5.17051 19.4377 5.94371 19.7108C6.278 19.8288 6.6787 19.8608 7.48008 19.9248C7.79903 19.9502 7.95851 19.963 8.1121 19.9933C8.46417 20.0628 8.79896 20.2015 9.09706 20.4013C9.22711 20.4884 9.34887 20.5922 9.5924 20.7997C10.2043 21.3212 10.5102 21.5819 10.8301 21.7348C11.57 22.0884 12.43 22.0884 13.1699 21.7348C13.4898 21.5819 13.7957 21.3212 14.4076 20.7997C14.6511 20.5922 14.7729 20.4884 14.9029 20.4013C15.201 20.2015 15.5358 20.0628 15.8879 19.9933C16.0415 19.963 16.201 19.9502 16.5199 19.9248C17.3213 19.8608 17.722 19.8288 18.0563 19.7108C18.8295 19.4377 19.4377 18.8295 19.7108 18.0563C19.8288 17.722 19.8608 17.3213 19.9248 16.5199C19.9502 16.201 19.963 16.0415 19.9933 15.8879C20.0628 15.5358 20.2015 15.201 20.4013 14.9029C20.4884 14.7729 20.5922 14.6511 20.7997 14.4076C21.3212 13.7957 21.5819 13.4898 21.7348 13.1699C22.0884 12.43 22.0884 11.57 21.7348 10.8301C21.5819 10.5102 21.3212 10.2043 20.7997 9.5924C20.5922 9.34887 20.4884 9.22711 20.4013 9.09706C20.2015 8.79896 20.0628 8.46417 19.9933 8.1121C19.963 7.95851 19.9502 7.79903 19.9248 7.48008C19.8608 6.6787 19.8288 6.278 19.7108 5.94371C19.4377 5.17051 18.8295 4.56233 18.0563 4.28923C17.722 4.17115 17.3213 4.13918 16.5199 4.07522C16.201 4.04977 16.0415 4.03705 15.8879 4.00672C15.5358 3.93721 15.201 3.79854 14.9029 3.59874C14.7729 3.51158 14.6511 3.40781 14.4076 3.20027C13.7957 2.67883 13.4898 2.41811 13.1699 2.26522C12.43 1.91159 11.57 1.91159 10.8301 2.26522C10.5102 2.4181 10.2043 2.67883 9.5924 3.20027ZM16.3735 9.86314C16.6913 9.5453 16.6913 9.03 16.3735 8.71216C16.0557 8.39433 15.5403 8.39433 15.2225 8.71216L10.3723 13.5624L8.77746 11.9676C8.45963 11.6498 7.94432 11.6498 7.62649 11.9676C7.30866 12.2854 7.30866 12.8007 7.62649 13.1186L9.79678 15.2889C10.1146 15.6067 10.6299 15.6067 10.9478 15.2889L16.3735 9.86314Z"/></svg></span>
+                </div>
+                <div class="comment-text-wrap is-expanded">
+                  <span class="comment-text">soon soon, still working on it in the studio 😤</span>
+                </div>
+                <div class="comment-action-row">
+                  <span class="comment-action-btn" aria-label="Like"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><use href="#icon-smile-circle"/></svg></span>
+                  <span class="comment-action-btn" aria-label="Comment"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><use href="#icon-chat-dots"/></svg></span>
+                  <span class="comment-action-btn" aria-label="Forward"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><use href="#icon-share"/></svg></span>
+                </div>
+              </div>
+            </div>
+          </div>
           </div>
         </div>
 
@@ -4689,7 +4818,7 @@
           <div class="content-tab-bar" style="gap:8px;">
             <span class="content-tab-item active" data-sort-toggle="profile">Profile</span>
             <span class="content-tab-item" data-sort-toggle="content">Posts<sup class="content-tab-count" id="phuwinPostsCount">6</sup></span>
-            <span class="content-tab-item" data-sort-toggle="comments">Replies<sup class="content-tab-count">0</sup></span>
+            <span class="content-tab-item" data-sort-toggle="comments">Replies<sup class="content-tab-count">2</sup></span>
           </div>
 
           <div class="tab-panel-content" data-tab-panel="profile" style="margin-top:4px;">
@@ -4852,6 +4981,39 @@
           </div>
 
           <div class="tab-panel-content" data-tab-panel="comments" style="display:none;">
+          <div class="comment-card">
+            <div class="comment-row">
+              <div class="comment-avatar" style="background:#8ecfc4;"></div>
+              <div class="comment-body">
+                <div class="comment-header">
+                  <span class="comment-name">Nook</span>
+                  <span class="comment-handle">@nook.tang</span>
+                </div>
+                <div class="comment-text-wrap" data-comment-wrap>
+                  <span class="comment-text">Black Card has been on repeat since it dropped, the vocals in the bridge are unreal 😭</span>
+                  <span class="comment-more-btn" data-comment-toggle></span>
+                </div>
+              </div>
+            </div>
+            <div class="comment-row is-creator-reply">
+              <div class="comment-avatar" style="background: linear-gradient(135deg, #d3b399, #b3906c);"></div>
+              <div class="comment-body">
+                <div class="comment-header">
+                  <span class="comment-name">Phuwin</span>
+                  <span class="comment-handle">@phuwintang</span>
+                  <span class="lena-verified-badge" aria-label="Verified"><svg width="9" height="9" viewBox="0 0 24 24" fill="none"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M9.5924 3.20027C9.34888 3.4078 9.22711 3.51158 9.09706 3.59874C8.79896 3.79854 8.46417 3.93721 8.1121 4.00672C7.95851 4.03705 7.79903 4.04977 7.48008 4.07522C6.6787 4.13918 6.278 4.17115 5.94371 4.28923C5.17051 4.56233 4.56233 5.17051 4.28923 5.94371C4.17115 6.278 4.13918 6.6787 4.07522 7.48008C4.04977 7.79903 4.03705 7.95851 4.00672 8.1121C3.93721 8.46417 3.79854 8.79896 3.59874 9.09706C3.51158 9.22711 3.40781 9.34887 3.20027 9.5924C2.67883 10.2043 2.4181 10.5102 2.26522 10.8301C1.91159 11.57 1.91159 12.43 2.26522 13.1699C2.41811 13.4898 2.67883 13.7957 3.20027 14.4076C3.40778 14.6511 3.51158 14.7729 3.59874 14.9029C3.79854 15.201 3.93721 15.5358 4.00672 15.8879C4.03705 16.0415 4.04977 16.201 4.07522 16.5199C4.13918 17.3213 4.17115 17.722 4.28923 18.0563C4.56233 18.8295 5.17051 19.4377 5.94371 19.7108C6.278 19.8288 6.6787 19.8608 7.48008 19.9248C7.79903 19.9502 7.95851 19.963 8.1121 19.9933C8.46417 20.0628 8.79896 20.2015 9.09706 20.4013C9.22711 20.4884 9.34887 20.5922 9.5924 20.7997C10.2043 21.3212 10.5102 21.5819 10.8301 21.7348C11.57 22.0884 12.43 22.0884 13.1699 21.7348C13.4898 21.5819 13.7957 21.3212 14.4076 20.7997C14.6511 20.5922 14.7729 20.4884 14.9029 20.4013C15.201 20.2015 15.5358 20.0628 15.8879 19.9933C16.0415 19.963 16.201 19.9502 16.5199 19.9248C17.3213 19.8608 17.722 19.8288 18.0563 19.7108C18.8295 19.4377 19.4377 18.8295 19.7108 18.0563C19.8288 17.722 19.8608 17.3213 19.9248 16.5199C19.9502 16.201 19.963 16.0415 19.9933 15.8879C20.0628 15.5358 20.2015 15.201 20.4013 14.9029C20.4884 14.7729 20.5922 14.6511 20.7997 14.4076C21.3212 13.7957 21.5819 13.4898 21.7348 13.1699C22.0884 12.43 22.0884 11.57 21.7348 10.8301C21.5819 10.5102 21.3212 10.2043 20.7997 9.5924C20.5922 9.34887 20.4884 9.22711 20.4013 9.09706C20.2015 8.79896 20.0628 8.46417 19.9933 8.1121C19.963 7.95851 19.9502 7.79903 19.9248 7.48008C19.8608 6.6787 19.8288 6.278 19.7108 5.94371C19.4377 5.17051 18.8295 4.56233 18.0563 4.28923C17.722 4.17115 17.3213 4.13918 16.5199 4.07522C16.201 4.04977 16.0415 4.03705 15.8879 4.00672C15.5358 3.93721 15.201 3.79854 14.9029 3.59874C14.7729 3.51158 14.6511 3.40781 14.4076 3.20027C13.7957 2.67883 13.4898 2.41811 13.1699 2.26522C12.43 1.91159 11.57 1.91159 10.8301 2.26522C10.5102 2.4181 10.2043 2.67883 9.5924 3.20027ZM16.3735 9.86314C16.6913 9.5453 16.6913 9.03 16.3735 8.71216C16.0557 8.39433 15.5403 8.39433 15.2225 8.71216L10.3723 13.5624L8.77746 11.9676C8.45963 11.6498 7.94432 11.6498 7.62649 11.9676C7.30866 12.2854 7.30866 12.8007 7.62649 13.1186L9.79678 15.2889C10.1146 15.6067 10.6299 15.6067 10.9478 15.2889L16.3735 9.86314Z"/></svg></span>
+                </div>
+                <div class="comment-text-wrap is-expanded">
+                  <span class="comment-text">that bridge took so many takes 😂 glad it hit right</span>
+                </div>
+                <div class="comment-action-row">
+                  <span class="comment-action-btn" aria-label="Like"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><use href="#icon-smile-circle"/></svg></span>
+                  <span class="comment-action-btn" aria-label="Comment"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><use href="#icon-chat-dots"/></svg></span>
+                  <span class="comment-action-btn" aria-label="Forward"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><use href="#icon-share"/></svg></span>
+                </div>
+              </div>
+            </div>
+          </div>
           </div>
         </div>
         <div class="pill-panel" data-panel="support">
@@ -5190,7 +5352,7 @@
               <div class="banner-detail-hero-fade"></div>
             </div>
             <div class="banner-detail-hero-heading-row">
-              <div class="banner-detail-hero-heading" id="bannerHeroHeading">Her in Frame</div>
+              <div class="banner-detail-hero-heading" id="bannerHeroHeading">Her in Frame / เธอในภาพนั้น</div>
               <div class="banner-detail-media-toggle" id="bannerDetailMediaToggle">
                 <span>Media</span>
                 <svg width="10" height="10" viewBox="0 0 20 20" fill="none"><use href="#icon-chevron-down-mini"/></svg>
@@ -5200,19 +5362,15 @@
           </div>
           <div class="detail-tab-row" id="bannerDetailTabRow" style="padding:16px 12px 0px;">
             <div class="detail-tab active" data-detail-tab="details"><span>Details</span></div>
-            <div class="detail-tab" data-detail-tab="media"><span>Media</span></div>
-            <div class="detail-tab" data-detail-tab="episodes"><span>Episodes</span></div>
-            <div class="detail-tab" data-detail-tab="reviews"><span>Reviews</span></div>
+            <div class="detail-tab" data-detail-tab="comments"><span>Comments</span></div>
           </div>
           <div class="banner-detail-body">
             <div class="banner-detail-tab-panel active" data-detail-tab-panel="details">
-            <div class="banner-detail-divider"></div>
             <div class="banner-detail-infolist" id="bannerDetailInfoList">
-              <div class="banner-detail-info-row"><span class="banner-detail-info-label">Original Title</span> Thoe Nai Phap Nan (เธอในภาพนั้น)</div>
-              <div class="banner-detail-genre-row"><span class="banner-detail-info-label">Genres</span> <div class="banner-detail-genre-tags"><span class="genre-tag">Romance</span><span class="genre-tag-dot">&middot;</span><span class="genre-tag">Drama</span></div></div>
-              <div class="banner-detail-info-row"><span class="banner-detail-info-label">Director</span> Koo Ekkasit Trakulkasemsuk</div>
+              <div class="banner-detail-meta-scroll"><span class="banner-detail-meta-item">2026</span><span class="banner-detail-meta-dot">&middot;</span><span class="banner-detail-meta-item">Thailand</span><span class="banner-detail-meta-dot">&middot;</span><span class="banner-detail-meta-item">Romance</span><span class="banner-detail-meta-dot">&middot;</span><span class="banner-detail-meta-item">Drama</span></div>
+              <div class="banner-detail-info-row"><span class="banner-detail-info-label banner-detail-info-label--regular">Creator</span> Koo Ekkasit Trakulkasemsuk</div>
             </div>
-            <div class="banner-detail-divider"></div>
+            <div class="banner-detail-desc" id="bannerDetailSynopsis">...</div>
             <div class="banner-detail-cast-row-wrap" id="bannerDetailCastWrap">
               <span class="banner-detail-info-label">Cast</span>
               <div class="banner-detail-cast-scroll" id="bannerDetailCastList">
@@ -5234,12 +5392,8 @@
                 </div>
               </div>
             </div>
-            <div class="banner-detail-divider"></div>
-            <div class="banner-detail-section-label">Synopsis</div>
-            <div class="banner-detail-desc" id="bannerDetailSynopsis">...</div>
             </div>
-            <div class="banner-detail-tab-panel" data-detail-tab-panel="media">
-            </div>
+
           </div>
         </div>
       </div>
@@ -5316,6 +5470,7 @@
       photos: ['debut-lnm.png', 'debut-lnm2.png'],
       title: 'My Safe Zone',
       akaTitle: '', // placeholder — TODO
+      country: '', // placeholder — TODO
       director: '', // placeholder — TODO
       genres: '', // placeholder — TODO
       synopsis: '', // placeholder — TODO
@@ -5327,6 +5482,7 @@
       photo: 'debut-lnm.png',
       title: '',
       akaTitle: '',
+      country: '',
       director: '',
       genres: '',
       synopsis: '',
@@ -5338,6 +5494,7 @@
       photo: 'debut-lnm.png',
       title: '',
       akaTitle: '',
+      country: '',
       director: '',
       genres: '',
       synopsis: '',
@@ -5349,6 +5506,7 @@
       photo: 'debut-lnm.png',
       title: '',
       akaTitle: '',
+      country: '',
       director: '',
       genres: '',
       synopsis: '',
@@ -5360,6 +5518,7 @@
       photo: 'debut-lnm.png',
       title: '',
       akaTitle: '',
+      country: '',
       director: '',
       genres: '',
       synopsis: '',
@@ -5371,6 +5530,7 @@
       photo: 'debut-banner.png',
       title: '',
       akaTitle: '',
+      country: '',
       director: '',
       genres: '',
       synopsis: '',
@@ -5382,6 +5542,7 @@
       photo: 'breakthrough-banner.png',
       title: '',
       akaTitle: '',
+      country: '',
       director: '',
       genres: '',
       synopsis: '',
@@ -5393,6 +5554,7 @@
       photo: 'debut-banner.png',
       title: '',
       akaTitle: '',
+      country: '',
       director: '',
       genres: '',
       synopsis: '',
@@ -5413,11 +5575,12 @@
     videos: [
       { id: 'fp3DWGXeTjQ', thumb: 'https://img.youtube.com/vi/fp3DWGXeTjQ/maxresdefault.jpg', title: 'OFFICIAL TRAILER | Her in Frame' }
     ],
-    title: 'Her in Frame',
+    title: 'Her in Frame / เธอในภาพนั้น',
     akaTitle: 'Thoe Nai Phap Nan (เธอในภาพนั้น)',
+    country: 'Thailand',
     director: 'Koo Ekkasit Trakulkasemsuk',
     genres: 'Romance, Drama',
-    synopsis: 'This project is inspired by the beautiful love between His Majesty King Bhumibol Adulyadej and Her Majesty Queen Sirikit, and also to honor His Majesty the King for his continued dedication, preservation, and expansion of royal duties to this day. It is a collaboration between the Ministry of Energy, the Electricity Generating Authority of Thailand (EGAT), and Broadcast Thai Television Co., Ltd.\n\nHer in Frame takes viewers on a journey to discover a timeless love, through mysterious photographs from an old film camera. This leads Tawan, a young photographer, and Mintra, a curator at a Thai textile museum, on a quest for truth, from Bangkok to the Sirikit Dam in Uttaradit province. Various events gradually develop their relationship amidst love, confusion, and the search for truth through those photographs.',
+    synopsis: 'This project is inspired by the beautiful love between His Majesty King Bhumibol Adulyadej and Her Majesty Queen Sirikit, and also to honor His Majesty the King for his continued dedication, preservation, and expansion of royal duties to this day.',
     cast: [
       '"Tor" Thanapob Leeratanakachorn as Tawan',
       '"Lena" Lalina or Lorena Schuett as Mint'
@@ -6658,7 +6821,9 @@
     if (bannerDetailTitleEl) bannerDetailTitleEl.textContent = event.title;
     if (bannerHeroHeadingEl) bannerHeroHeadingEl.textContent = event.title;
     if (bannerDetailInfoListEl) {
-      const genreTagsHtml = (event.genres || '').split(',').map((g) => g.trim()).filter(Boolean).map((name) => '<span class="genre-tag">' + name + '</span>').join('<span class="genre-tag-dot">&middot;</span>');
+      const metaYear = (event.date || '').slice(0, 4);
+      const metaParts = [metaYear, event.country, ...(event.genres || '').split(',').map((g) => g.trim())].filter(Boolean);
+      const metaScrollHtml = metaParts.map((p) => '<span class="banner-detail-meta-item">' + p + '</span>').join('<span class="banner-detail-meta-dot">&middot;</span>');
       const castCardsHtml = (event.cast || []).map((c, i) => {
         const quoted = c.match(/"([^"]+)"/);
         const displayName = quoted ? quoted[1] : c;
@@ -6672,9 +6837,8 @@
         '</div>';
       }).join('');
       bannerDetailInfoListEl.innerHTML =
-        '<div class="banner-detail-info-row"><span class="banner-detail-info-label">Original Title</span> ' + event.akaTitle + '</div>' +
-        '<div class="banner-detail-genre-row"><span class="banner-detail-info-label">Genres</span> <div class="banner-detail-genre-tags">' + genreTagsHtml + '</div></div>' +
-        '<div class="banner-detail-info-row"><span class="banner-detail-info-label">Director</span> ' + event.director + '</div>';
+        '<div class="banner-detail-meta-scroll">' + metaScrollHtml + '</div>' +
+        '<div class="banner-detail-info-row"><span class="banner-detail-info-label banner-detail-info-label--regular">Creator</span> ' + event.director + '</div>';
       if (bannerDetailCastWrapEl) {
         bannerDetailCastWrapEl.innerHTML = '<span class="banner-detail-info-label">Cast</span><div class="banner-detail-cast-scroll" id="bannerDetailCastList">' + castCardsHtml + '</div>';
       }
